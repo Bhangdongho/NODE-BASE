@@ -18,3 +18,16 @@ app.get('/products/:n', function (req, res) {
     num: number,
   });
 });
+
+// 채널 주소 : https://www.youtube.com/@15ya.fullmoon
+// 채널 주소 : https://www.youtube.com/@ChimChakMan_Official
+
+app.get('/:nickname', function (req, res) {
+  const param = req.params;
+
+  res.json({
+    channel: param.nickname,
+  });
+});
+
+// 영상 클릭 주소 : https://www.youtube.com/watch?v=fdtCUNlIQRc&t=627s
