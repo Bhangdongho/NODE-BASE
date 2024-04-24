@@ -11,7 +11,10 @@ app.get('/products/:n', function (req, res) {
   //   console.log(req.params);
   //   console.log(req.params.n);
 
+  let number = parseInt(req.params.n) - 10;
+  console.log(number); // 숫자"숫자"
+
   res.json({
-    num: req.params.n,
+    num: number,
   });
 });
