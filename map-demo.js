@@ -6,17 +6,16 @@ app.get('/:id', function (req, res) {
   let { id } = req.params;
   console.log(id);
   id = parseInt(id); // "숫자" => 숫자
-  console.log(db.get(id));
 
   if (db.get(id) == undefined) {
     res.json({
       message: '없는 상품입니다.',
     });
   } else {
-    res.json({
-      id: id,
-      productName: db.get(id),
-    });
+    product = db.get(id);
+    product.id = id;
+
+    res.json(db.get(id));
   }
 });
 
@@ -25,13 +24,34 @@ app.get('/:id', function (req, res) {
 // localhost:3000/3 => Chair
 
 let db = new Map();
-db.set(1, 'NoteBook'); // 키로 벨류를 찾을 수 있는 한 쌍을 저장
-db.set(2, 'Cup');
-db.set(3, 'Chair');
-db.set('1', 'Bhangdongho');
 
-// console.log(db);
-// console.log(db.get(1));
+let notebook = {
+  productName: 'Notebook',
+  price: 2000000,
+};
+
+let cup = {
+  productName: 'Cup',
+  price: 3000,
+};
+
+let chair = {
+  productName: 'Chair',
+  price: 100000,
+};
+
+let poster = {
+  productName: 'Poster',
+  price: 20000,
+};
+
+db.set(1, notebook); // 키로 벨류를 찾을 수 있는 한 쌍을 저장
+db.set(2, cup);
+db.set(3, chair);
+db.set(4, poster);
+
+console.log(db);
+console.log(db.get(1));
 // console.log(db.get('1'));
-// console.log(db.get(2));
-// console.log(db.get(3));
+console.log(db.get(2));
+console.log(db.get(3));
