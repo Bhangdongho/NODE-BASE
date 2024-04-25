@@ -13,7 +13,7 @@ app.get('/:id', function (req, res) {
     });
   } else {
     product = db.get(id);
-    product.id = id;
+    product['id'] = id; // product.id = id;
 
     res.json(db.get(id));
   }
