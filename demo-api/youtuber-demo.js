@@ -23,13 +23,22 @@ let youtuber3 = {
   videoNum: '726개',
 };
 
-let db = new Map();
+let db = new Map(); // key - value = json
 var id = 1;
 db.set(id++, youtuber1);
 db.set(id++, youtuber2);
 db.set(id++, youtuber3);
 
 // REST API 설계
+app.get('/youtubers', function (req, res) {
+  var youtubers = {};
+  db.forEach(function (value, key) {
+    youtubers[key] = value;
+  });
+
+  res.json(youtubers);
+});
+
 app.get('/youtuber/:id', function (req, res) {
   let { id } = req.params;
   id = parseInt(id);
