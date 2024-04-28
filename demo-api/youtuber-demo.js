@@ -39,7 +39,7 @@ app.get('/youtubers', function (req, res) {
   res.json(youtubers);
 });
 
-app.get('/youtuber/:id', function (req, res) {
+app.get('/youtubers/:id', function (req, res) {
   let { id } = req.params;
   id = parseInt(id);
 
@@ -54,7 +54,7 @@ app.get('/youtuber/:id', function (req, res) {
 });
 
 app.use(express.json()); // http 외 모듈인 '미들웨어' : json 설정
-app.post('/youtuber', (req, res) => {
+app.post('/youtubers', (req, res) => {
   console.log(req.body);
 
   // 등록..? Map(db)에 저장(put) 해줘야 한다.
@@ -63,4 +63,23 @@ app.post('/youtuber', (req, res) => {
   res.json({
     message: `${db.get(id - 1).channelTitle}님, 유튜버가 된 것을 환영합니다!`,
   });
+});
+
+app.delete('/youtubers/:id', (req, res) => {
+  let { id } = req.params;
+  id = parseInt(id);
+
+  var youtuber = db.get(id);
+  if (youtuber == undefined) {
+    res.json({
+      message: `요청하신 ${id}번은 없는 유튜버입니다.`,
+    });
+  } else {
+    const channelTitle = youtuber.channelTitle;
+    db.delete(id);
+
+    res.json({
+      message: `${channelTitle}님, 아쉽지만 다음에 또 뵙겠습니다.`,
+    });
+  }
 });

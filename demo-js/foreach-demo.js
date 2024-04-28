@@ -18,5 +18,5 @@ map.set(9, 'nine');
 map.set(8, 'eight');
 
 map.forEach(function (a, b, c) {
-  console.log(`a : ${a}, b : ${b}, c: ${c}`);
+  //   console.log(`a : ${a}, b : ${b}, c: ${c}`);
 });
