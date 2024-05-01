@@ -64,14 +64,19 @@ app.get('/youtubers/:id', function (req, res) {
 
 app.use(express.json()); // http 외 모듈인 '미들웨어' : json 설정
 app.post('/youtubers', (req, res) => {
-  console.log(req.body);
+  const channelTitle = req.body.channelTitle;
+  if (channelTitle) {
+    // 등록..? Map(db)에 저장(put) 해줘야 한다.
+    db.set(id++, req.body);
 
-  // 등록..? Map(db)에 저장(put) 해줘야 한다.
-  db.set(id++, req.body);
-
-  res.json({
-    message: `${db.get(id - 1).channelTitle}님, 유튜버가 된 것을 환영합니다!`,
-  });
+    res.status(201).json({
+      message: `${db.get(id - 1).channelTitle}님, 유튜버가 된 것을 환영합니다!`,
+    });
+  } else {
+    res.status(400).json({
+      message: '요청 값을 제대로 보내주세요.',
+    });
+  }
 });
 
 app.delete('/youtubers/:id', (req, res) => {
