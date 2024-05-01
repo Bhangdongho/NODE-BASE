@@ -32,11 +32,20 @@ db.set(id++, youtuber3);
 // REST API 설계
 app.get('/youtubers', function (req, res) {
   var youtubers = {};
-  db.forEach(function (value, key) {
-    youtubers[key] = value;
-  });
 
-  res.json(youtubers);
+  console.log(db);
+
+  if (db.size !== 0) {
+    db.forEach(function (value, key) {
+      youtubers[key] = value;
+    });
+
+    res.json(youtubers);
+  } else {
+    res.status(404).json({
+      message: '조회할 유튜버가 없습니다.',
+    });
+  }
 });
 
 app.get('/youtubers/:id', function (req, res) {
@@ -45,7 +54,7 @@ app.get('/youtubers/:id', function (req, res) {
 
   const youtuber = db.get(id);
   if (youtuber == undefined) {
-    res.json({
+    res.status(404).json({
       message: '유튜버 정보를 찾을 수 없습니다.',
     });
   } else {
@@ -78,26 +87,26 @@ app.delete('/youtubers/:id', (req, res) => {
       message: `${channelTitle}님, 아쉽지만 다음에 또 뵙겠습니다.`,
     });
   } else {
-    res.json({
+    res.status(404).json({
       message: `요청하신 ${id}번은 없는 유튜버입니다.`,
     });
   }
 });
 
 app.delete('/youtubers', (req, res) => {
-  var msg = '';
   // db에 값이 1개 이상이면, 전체 삭제
   if (db.size >= 1) {
     db.clear();
-    msg = '전체 유튜버가 삭제되었습니다.';
+
+    res.json({
+      message: '전체 유튜버가 삭제되었습니다.',
+    });
   } else {
     // 값이 없으면,
-    msg = '삭제할 유튜버가 없습니다.';
+    res.status(404).json({
+      message: '삭제할 유튜버가 없습니다.',
+    });
   }
-
-  res.json({
-    message: msg,
-  });
 });
 
 app.put('/youtubers/:id', (req, res) => {
@@ -107,7 +116,7 @@ app.put('/youtubers/:id', (req, res) => {
   var youtuber = db.get(id);
   var oldTitle = youtuber.channelTitle;
   if (youtuber == undefined) {
-    res.json({
+    res.status(404).json({
       message: `요청하신 ${id}번은 없는 유튜버입니다.`,
     });
   } else {
