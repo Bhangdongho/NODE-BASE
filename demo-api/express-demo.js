@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
-
+const dotenv = require('dotenv');
+dotenv.config();
 // 서버 셋팅 : 포트 넘버(번호) 3000로 셋팅
-app.listen(3000);
+app.listen(process.env.PORT);
 
 // GET + "/"
 app.get('/', function (req, res) {
