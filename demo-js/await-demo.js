@@ -9,14 +9,31 @@
 // 공간을 제공한다!
 
 async function f() {
-  let promise = new Promise(function (resolve, reject) {
-    setTimeout(() => resolve('완료!'), 3000);
+  // promise 객체 한개당 => query 하나
+  let promise1 = new Promise(function (resolve, reject) {
+    setTimeout(() => resolve('첫번째 쿼리'), 3000);
   });
 
-  let result = await promise;
+  let result1 = await promise1;
   // promise 객체가 일 다 할때까지 기다려줌
 
-  console.log(result);
+  console.log(result1);
+
+  // promise 객체 한개당 => query 하나
+  let promise2 = new Promise(function (resolve, reject) {
+    setTimeout(() => resolve('두번째 쿼리 with ' + result1), 3000);
+  });
+
+  let result2 = await promise2;
+  console.log(result2);
+
+  // promise 객체 한개당 => query 하나
+  let promise3 = new Promise(function (resolve, reject) {
+    setTimeout(() => resolve('세번째 쿼리 with ' + result2), 3000);
+  });
+
+  let result3 = await promise3;
+  console.log(result3);
 }
 
 f();
