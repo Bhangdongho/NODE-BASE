@@ -19,7 +19,9 @@ app.get('/jwt', function (req, res) {
 
 // GET + "/jwt/decoded" : 토큰을 검증
 app.get('/jwt/decoded', function (req, res) {
-  var decoded = jwt.verify(token, process.env.PRIVATE_KEY);
+  let receivedJwt = req.headers['authorization'];
+  console.log('우리가 req로 전달받은 jwt : ', receivedJwt);
+  var decoded = jwt.verify(receivedJwt, process.env.PRIVATE_KEY);
 
   res.send(decoded);
 });
